@@ -1,0 +1,32 @@
+#!/bin/sh
+
+PROPERTIES_FILE="${HOME}/server/server.properties"
+URL=https://resourcepacks.example.com
+
+HASH=$(sha1sum < "$HOME/server/pack.zip" | awk '{ print $1 }') || { echo "Ошибка: не удалось сгенерировать хеш ресурспака!" >&2; exit 1; }
+UUID=$(sudo ./publish_resourcepack) || { echo "Не удалось задеплоить ресурспак" >&2; exit 1;}
+
+
+update_property() {
+    key="$1"
+    value="$2"
+    file="$3"
+
+    # Проверяем, есть ли уже этот ключ в файле (даже если он пустой или закомментирован)
+    if grep -q "^${key}=" "$file"; then
+        # Если ключ найден, заменяем всю строку на новое значение
+        sed -i "s|^${key}=.*|${key}=${value}|" "$file"
+    else
+        # Если ключа нет, просто дописываем его в конец файла с новой строки
+        echo "${key}=${value}" >> "$file"
+    fi
+}
+
+if [ ! -f "$PROPERTIES_FILE" ]; then
+    echo "Ошибка: Файл $PROPERTIES_FILE не найден!" >&2
+    exit 1
+fi
+
+update_property "resource-pack" "${URL}/$UUID" "$PROPERTIES_FILE"
+update_property "resource-pack-id" "$UUID" "$PROPERTIES_FILE"
+update_property "resource-pack-sha1" "$HASH" "$PROPERTIES_FILE"
