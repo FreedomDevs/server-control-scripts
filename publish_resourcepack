@@ -2,12 +2,12 @@
 
 : "${SUDO_UID:?Ошибка: Переменная SUDO_UID пуста или не задана!}"
 
+NAMESPACE=$(cat -- resourcepack_namespace) || { echo "Ошибка: не удалось прочитать файл namespace!" >&2; exit 1; }
+UUID=$(uuidgen --sha1 -n "$NAMESPACE" -N "$SUDO_UID") || { echo "Ошибка: не удалось сгенерировать UUID" >&2; exit 1;}
+
 LIMIT_BYTES=104857600
 FILE_PATH="out/$UUID"
 TEMP_FILE_PATH="out/.$UUID"
-
-NAMESPACE=$(cat -- resourcepack_namespace) || { echo "Ошибка: не удалось прочитать файл namespace!" >&2; exit 1; }
-UUID=$(uuidgen --sha1 -n "$NAMESPACE" -N "$SUDO_UID") || { echo "Ошибка: не удалось сгенерировать UUID" >&2; exit 1;}
 
 printf '%s' "$UUID"
 
