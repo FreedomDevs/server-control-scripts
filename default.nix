@@ -8,8 +8,8 @@
   gnugrep,
   gnused,
   # Переменные
-  outpath ? /var/www/resurcepacks/,
-  resourcepack_namespace_path ? /run/agenix/resourcepack_namespace,
+  outpath ? "/var/www/resurcepacks/",
+  resourcepack_namespace_path ? "/run/agenix/resourcepack_namespace",
 }:
 stdenv.mkDerivation {
   pname = "elysium-server-control-scripts";
