@@ -11,7 +11,6 @@ UUID=$(uuidgen --sha1 -n "$NAMESPACE" -N "$SUDO_UID") || { echo "Ошибка: �
 
 printf '%s' "$UUID"
 
-
 head -c "$((LIMIT_BYTES + 1))" > "$TEMP_FILE_PATH" || { echo "Ошибка: не удалось скопировать файл" >&2; exit 1;}
 
 FILE_SIZE=$(wc -c < "$TEMP_FILE_PATH") || { echo "Ошибка: не удалось скопировать файл" >&2; exit 1;}
