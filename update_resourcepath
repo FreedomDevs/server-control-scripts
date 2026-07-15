@@ -3,8 +3,12 @@
 PROPERTIES_FILE="${HOME}/server/server.properties"
 URL=https://resourcepacks.example.com
 
-HASH=$(sha1sum < "$HOME/server/pack.zip" | awk '{ print $1 }') || { echo "Ошибка: не удалось сгенерировать хеш ресурспака!" >&2; exit 1; }
-UUID=$(sudo ./publish_resourcepack) || { echo "Не удалось задеплоить ресурспак" >&2; exit 1;}
+HASH=$(sha1sum < "$HOME/server/pack.zip") || { echo "Ошибка: не удалось сгенерировать хеш ресурспака!" >&2; exit 1; }
+HASH=${HASH_OUT%% *}
+
+# Игнорируем варнинг о том что sudo не будет применено к чтению файла, так как нам это и не надо
+# shellcheck disable=SC2024
+UUID=$(sudo ./publish_resourcepack < ~/server/pack.zip) || { echo "Не удалось задеплоить ресурспак" >&2; exit 1;}
 
 
 update_property() {
