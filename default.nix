@@ -40,9 +40,7 @@ stdenv.mkDerivation {
         --replace-fail "cat" "${coreutils-full}/cat" \
         --replace-fail "resourcepack_namespace" "${resourcepack_namespace_path}" \
         --replace-fail "uuidgen" "${util-linux}/bin/uuidgen" \
-        --replace-fail "head" "${coreutils-full}/bin/head" \
-        --replace-fail "rm" "${coreutils-full}/bin/rm" \
-        --replace-fail "mv" "${coreutils-full}/bin/mv"
+        --replace-fail "cp" "${coreutils-full}/bin/cp"
   '';
 
   doCheck = true;
