@@ -29,7 +29,7 @@ stdenv.mkDerivation {
     substituteInPlace build_stage/bin/update_resourcepack \
         --replace-fail "#!/bin/sh" "#!${dash}/bin/dash" \
         --replace-fail "sha1sum" "${coreutils-full}/bin/sha1sum" \
-        --replace-fail "./publish_resourcepack" "$out/bin/publish_resourcepack" \
+        --replace-fail "./publish_resourcepack" "$out/internal/publish_resourcepack" \
         --replace-fail "grep" "${gnugrep}/bin/grep" \
         --replace-fail "sed" "${gnused}/bin/sed"
 
