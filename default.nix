@@ -8,7 +8,7 @@
   gnugrep,
   gnused,
   # Переменные
-  outpath ? "/var/www/resurcepacks/",
+  outpath ? "/var/www/resourcepacks/",
   resourcepack_namespace_path ? "/run/agenix/resourcepack_namespace",
 }:
 stdenv.mkDerivation {
