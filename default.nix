@@ -37,7 +37,7 @@ stdenv.mkDerivation {
     substituteInPlace build_stage/internal/publish_resourcepack \
         --replace-fail "#!/bin/sh" "#!${dash}/bin/dash" \
         --replace-fail "out/" "${outpath}" \
-        --replace-fail "cat" "${coreutils-full}/cat" \
+        --replace-fail "cat" "${coreutils-full}/bin/cat" \
         --replace-fail "resourcepack_namespace" "${resourcepack_namespace_path}" \
         --replace-fail "uuidgen" "${util-linux}/bin/uuidgen" \
         --replace-fail "cp" "${coreutils-full}/bin/cp"
