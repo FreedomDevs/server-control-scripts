@@ -4,20 +4,8 @@
 
 NAMESPACE=$(cat -- resourcepack_namespace) || { echo "Ошибка: не удалось прочитать файл namespace!" >&2; exit 1; }
 UUID=$(uuidgen --sha1 -n "$NAMESPACE" -N "$SUDO_UID") || { echo "Ошибка: не удалось сгенерировать UUID" >&2; exit 1;}
-
-LIMIT_BYTES=104857600
-FILE_PATH="out/$UUID"
-TEMP_FILE_PATH="out/.$UUID"
-
 printf '%s' "$UUID"
 
-head -c "$((LIMIT_BYTES + 1))" > "$TEMP_FILE_PATH" || { echo "Ошибка: не удалось скопировать файл" >&2; exit 1;}
+FILE_PATH="out/$UUID"
 
-FILE_SIZE=$(wc -c < "$TEMP_FILE_PATH") || { echo "Ошибка: не удалось скопировать файл" >&2; exit 1;}
-if [ "$FILE_SIZE" -gt "$LIMIT_BYTES" ]; then
-    echo "Ошибка: Файл слишком большой! Максимум 100 МБ." >&2
-    rm -f -- "$TEMP_FILE_PATH"
-    exit 1
-fi
-
-mv -f -- "$TEMP_FILE_PATH" "$FILE_PATH" || { echo "Ошибка: не удалось скопировать файл" >&2; exit 1;}
+cp --reflink=always /dev/stdin "$FILE_PATH" || { echo "Ошибка: не удалось скопировать файл" >&2; exit 1;}
